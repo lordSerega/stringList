@@ -6,20 +6,18 @@ public class StringArray implements StringList {
 
     private String[] list;
     private int size;
-    private final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 2;
 
+    public StringArray() {
+        this.list = new String[DEFAULT_CAPACITY];
+    }
 
     public StringArray(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Размер массива не может быть меньше или равным нулю");
         } else {
-            list = (String[]) new String[capacity];
-
+            this.list = new String[capacity];
         }
-    }
-
-    public StringArray() {
-        list = (String[]) new String[DEFAULT_CAPACITY];
     }
 
     private void checkNull(String item) {
@@ -33,7 +31,6 @@ public class StringArray implements StringList {
         list = Arrays.copyOf(list, newCapacity);
     }
 
-
     @Override
     public String add(String item) {
         checkNull(item);
@@ -41,6 +38,7 @@ public class StringArray implements StringList {
             addSize();
         }
         list[size++] = item;
+
         return item;
     }
 
@@ -56,10 +54,7 @@ public class StringArray implements StringList {
             addSize();
         }
 
-        for (int i = size; i > index; i--) {
-            list[i] = list[i - 1];
-        }
-
+        System.arraycopy(list,index,list,index+1,size-index);
         size++;
         return item;
     }
